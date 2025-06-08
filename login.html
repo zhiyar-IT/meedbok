@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MedBook Hospital - Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #005BAA;
+            --secondary: #008080;
+            --accent: #FF6B6B;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+        body {
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #f5f7fa 60%, #e0f7fa 100%);
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 32px #b3b3b355;
+            padding: 2.5rem 2rem 2rem 2rem;
+            max-width: 400px;
+            width: 100%;
+            margin: 40px 0;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .login-header i {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .login-header h2 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .login-form label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        .login-form input[type="email"],
+        .login-form input[type="password"],
+        .login-form input[type="text"] {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 7px;
+            border: 1px solid #b3c6e7;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .login-form .input-group {
+            position: relative;
+        }
+        .login-form .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+        .login-form .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .login-form .remember-me input {
+            margin-right: 7px;
+        }
+        .login-form button {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 7px;
+            border: none;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .login-form button:hover {
+            background: var(--secondary);
+        }
+        .login-form .social-login {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+        .login-form .social-login button {
+            flex: 1;
+            background: #f5f7fa;
+            color: var(--primary);
+            border: 1px solid #e0e0e0;
+            font-size: 1.1rem;
+            padding: 0.6rem 0;
+            border-radius: 7px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .login-form .social-login button:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+        .login-form .links {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.98rem;
+        }
+        .login-form .links a {
+            color: var(--primary);
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+        .login-form .links a:hover {
+            color: var(--accent);
+        }
+        .login-form .otp-section {
+            margin-top: 1rem;
+            display: none;
+        }
+        .login-form .otp-section input {
+            width: 60px;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-right: 8px;
+        }
+        .login-form .error-message {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1rem;
+        }
+        .login-form .success-message {
+            color: #2ecc40;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-size: 1rem;
+        }
+        .login-form .biometric {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .login-form .biometric button {
+            background: #f5f7fa;
+            color: var(--primary);
+            border: 1px solid #e0e0e0;
+            font-size: 1.3rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 7px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .login-form .biometric button:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+        .login-form .show-hint {
+            color: var(--gray);
+            font-size: 0.97rem;
+            margin-bottom: 1rem;
+            text-align: right;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .login-form .captcha-section {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .login-form .captcha-img {
+            background: #f5f7fa;
+            border-radius: 6px;
+            padding: 6px 18px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            user-select: none;
+        }
+        .login-form .captcha-refresh {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .login-form .captcha-refresh:hover {
+            color: var(--accent);
+        }
+        .login-form .lang-switcher {
+            margin-bottom: 1rem;
+            text-align: right;
+        }
+        .login-form .lang-switcher select {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 3px 8px;
+            font-size: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .login-form .accessibility-tools {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1rem;
+            justify-content: flex-end;
+        }
+        .login-form .accessibility-tools button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 7px 10px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.18s;
+        }
+        .login-form .accessibility-tools button:hover {
+            background: var(--accent);
+        }
+        /* 1. Dark/Light Mode Toggle */
+        body.dark-mode {
+            background: #181c24 !important;
+            color: #fff !important;
+        }
+        .dark-mode .login-container {
+            background: #232a36;
+            color: #fff;
+        }
+        .dark-mode .login-form input,
+        .dark-mode .login-form select {
+            background: #232a36;
+            color: #fff;
+            border-color: #444;
+        }
+        .theme-toggle {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+        .theme-toggle button {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--primary);
+        }
+        .dark-mode .theme-toggle button {
+            color: #fff;
+        }
+
+        /* 3. Password Strength Meter */
+        .strength-meter {
+            height: 6px;
+            width: 100%;
+            background: #eee;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .strength-meter-bar {
+            height: 100%;
+            width: 0;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+        .strength-weak { background: #FF6B6B; }
+        .strength-medium { background: #FFD700; }
+        .strength-strong { background: #2ecc40; }
+
+        /* 4. Multi-step Login */
+        .step-section {
+            display: none;
+        }
+        .step-section.active {
+            display: block;
+        }
+
+        /* 5. Animated Loading Spinner */
+        .spinner {
+            display: none;
+            margin: 0 auto 1rem auto;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+        }
+
+        /* 6. Login Attempt Lockout */
+        .lockout-msg {
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        /* 7. ARIA for accessibility: no CSS needed */
+
+        /* 8. Tooltips for Inputs */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 180px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 7px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; left: 50%; transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.97rem;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* 9. Last Login Info */
+        .last-login {
+            color: var(--gray);
+            font-size: 0.97rem;
+            text-align: right;
+            margin-bottom: 0.7rem;
+        }
+
+        /* 10. Terms & Privacy Links */
+        .terms-links {
+            text-align: center;
+            margin-top: 1.2rem;
+            font-size: 0.97rem;
+        }
+        .terms-links a {
+            color: var(--primary);
+            text-decoration: underline;
+            margin: 0 8px;
+        }
+        .terms-links a:hover {
+            color: var(--accent);
+        }
+
+        /* 11. Responsive Animations */
+        .login-form input, .login-form button, .login-form select {
+            transition: box-shadow 0.2s, background 0.2s, color 0.2s;
+        }
+        .login-form input:focus, .login-form select:focus {
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        /* 12. Login as Guest */
+        .guest-login {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .guest-login button {
+            background: var(--secondary);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 8px 22px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.18s;
+        }
+        .guest-login button:hover {
+            background: var(--primary);
+        }
+
+        /* 13. Session Timeout Warning: (not shown on login page) */
+
+        /* 14. Multi-step Login: see .step-section above */
+
+        /* 15. Show/Hide Language Switcher on Mobile */
+        @media (max-width: 500px) {
+            .lang-switcher { text-align: center !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="theme-toggle">
+            <button type="button" id="themeToggleBtn" title="Toggle Dark/Light Mode"><i class="fas fa-moon"></i></button>
+        </div>
+        <div class="login-header">
+            <i class="fas fa-user-shield"></i>
+            <h2 id="loginTitle">Login to MedBook</h2>
+        </div>
+        <form class="login-form" id="loginForm" autocomplete="off" aria-label="Login Form">
+            <!-- 15. Language Switcher -->
+            <div class="lang-switcher">
+                <select id="langSelect" aria-label="Language Switcher">
+                    <option value="en">English</option>
+                    <option value="ku">Kurdish</option>
+                    <option value="ar">Arabic</option>
+                </select>
+            </div>
+            <!-- 9. Last Login Info -->
+            <div class="last-login" id="lastLoginInfo" style="display:none;"></div>
+            <!-- 2. Login with Phone Number (toggle) -->
+            <div style="text-align:right;margin-bottom:8px;">
+                <button type="button" id="toggleLoginMethod" style="background:none;border:none;color:var(--primary);font-size:0.98rem;cursor:pointer;">Use phone instead</button>
+            </div>
+            <!-- 14. Multi-step Login -->
+            <div class="step-section active" id="step1">
+                <label for="email" id="emailLabel">Email</label>
+                <input type="email" id="email" placeholder="you@email.com" required autocomplete="username" aria-required="true">
+                <label for="phone" id="phoneLabel" style="display:none;">Phone Number</label>
+                <input type="text" id="phone" placeholder="e.g. +9647000000000" style="display:none;" autocomplete="tel" pattern="^\+?\d{10,15}$">
+                <button type="button" id="nextStepBtn">Next</button>
+            </div>
+            <div class="step-section" id="step2">
+                <label for="password" id="passwordLabel">Password
+                    <span class="tooltip"><i class="fas fa-info-circle"></i>
+                        <span class="tooltiptext">Password must be at least 8 characters.</span>
+                    </span>
+                </label>
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Password" required autocomplete="current-password" aria-required="true">
+                    <button type="button" class="toggle-password" tabindex="-1" aria-label="Show/Hide Password"><i class="fas fa-eye"></i></button>
+                </div>
+                <!-- 3. Password Strength Meter -->
+                <div class="strength-meter" id="strengthMeter"><div class="strength-meter-bar" id="strengthBar"></div></div>
+                <div class="show-hint" id="showHint" onclick="showPasswordHint()">Show password hint</div>
+                <button type="button" id="toCaptchaBtn">Next</button>
+            </div>
+            <div class="step-section" id="step3">
+                <!-- 4. Progressive Disclosure: CAPTCHA and OTP only here -->
+                <div class="captcha-section">
+                    <span class="captcha-img" id="captchaImg"></span>
+                    <button type="button" class="captcha-refresh" onclick="generateCaptcha()" title="Refresh CAPTCHA"><i class="fas fa-sync"></i></button>
+                    <input type="text" id="captchaInput" placeholder="Enter CAPTCHA" required style="width:100px;">
+                </div>
+                <button type="button" id="toOtpBtn">Next</button>
+            </div>
+            <div class="step-section" id="step4">
+                <div class="otp-section" style="display:block;">
+                    <label for="otp" id="otpLabel">Enter OTP:</label>
+                    <input type="text" id="otp" maxlength="6" pattern="\d{6}">
+                    <button type="button" id="verifyOtpBtn">Verify OTP</button>
+                </div>
+            </div>
+            <div class="remember-me">
+                <input type="checkbox" id="rememberMe">
+                <label for="rememberMe" id="rememberMeLabel">Remember me</label>
+            </div>
+            <!-- 5. Loading Spinner -->
+            <div class="spinner" id="spinner"></div>
+            <div class="error-message" id="errorMsg"></div>
+            <div class="success-message" id="successMsg"></div>
+            <!-- 6. Lockout Message -->
+            <div class="lockout-msg" id="lockoutMsg" style="display:none;"></div>
+            <button type="submit" id="loginBtn">Login</button>
+            <!-- 12. Login as Guest -->
+            <div class="guest-login">
+                <button type="button" id="guestLoginBtn"><i class="fas fa-user"></i> Login as Guest</button>
+            </div>
+            <div class="social-login">
+                <button type="button"><i class="fab fa-google"></i></button>
+                <button type="button"><i class="fab fa-facebook-f"></i></button>
+                <button type="button"><i class="fab fa-apple"></i></button>
+            </div>
+            <div class="biometric">
+                <span>Or use</span>
+                <button type="button" id="biometricBtn" title="Biometric Login"><i class="fas fa-fingerprint"></i></button>
+            </div>
+            <div class="links">
+                <a href="#" id="forgotPassword">Forgot password?</a>
+                <a href="#" id="registerLink">Register</a>
+            </div>
+            <!-- 10. Terms & Privacy -->
+            <div class="terms-links">
+                <a href="privacy.html" target="_blank">Privacy Policy</a> | 
+                <a href="terms.html" target="_blank">Terms of Service</a>
+            </div>
+            <div style="text-align:center; margin-top:1.2rem;">
+                <a href="index.htmlhomemedbook.html" class="btn-primary" style="display:inline-block;padding:10px 28px;border-radius:7px;background:var(--primary);color:#fff;font-weight:600;text-decoration:none;transition:background 0.18s;">&#8592; Back to Home</a>
+            </div>
+        </form>
+    </div>
+    <script>
+        // 1. Dark/Light Mode Toggle
+        document.getElementById('themeToggleBtn').onclick = function() {
+            document.body.classList.toggle('dark-mode');
+            this.innerHTML = document.body.classList.contains('dark-mode')
+                ? '<i class="fas fa-sun"></i>'
+                : '<i class="fas fa-moon"></i>';
+        };
+
+        // 2. Login with Phone Number
+        let usingPhone = false;
+        document.getElementById('toggleLoginMethod').onclick = function() {
+            usingPhone = !usingPhone;
+            document.getElementById('email').style.display = usingPhone ? 'none' : '';
+            document.getElementById('emailLabel').style.display = usingPhone ? 'none' : '';
+            document.getElementById('phone').style.display = usingPhone ? '' : 'none';
+            document.getElementById('phoneLabel').style.display = usingPhone ? '' : 'none';
+            this.textContent = usingPhone ? "Use email instead" : "Use phone instead";
+        };
+
+        // 3. Password Strength Meter
+        document.getElementById('password').oninput = function() {
+            const val = this.value;
+            const bar = document.getElementById('strengthBar');
+            let strength = 0;
+            if (val.length >= 8) strength++;
+            if (/[A-Z]/.test(val)) strength++;
+            if (/[0-9]/.test(val)) strength++;
+            if (/[^A-Za-z0-9]/.test(val)) strength++;
+            bar.style.width = (strength * 25) + "%";
+            bar.className = "strength-meter-bar";
+            if (strength <= 1) bar.classList.add("strength-weak");
+            else if (strength === 2 || strength === 3) bar.classList.add("strength-medium");
+            else bar.classList.add("strength-strong");
+        };
+
+        // 4. Multi-step Login
+        function showStep(step) {
+            document.querySelectorAll('.step-section').forEach((el, idx) => {
+                el.classList.toggle('active', idx === step);
+            });
+        }
+        document.getElementById('nextStepBtn').onclick = function() {
+            // Validate email/phone
+            let valid = false;
+            if (!usingPhone) {
+                valid = document.getElementById('email').value.trim().length > 3;
+            } else {
+                valid = /^\+?\d{10,15}$/.test(document.getElementById('phone').value.trim());
+            }
+            if (!valid) {
+                document.getElementById('errorMsg').textContent = usingPhone ? "Enter a valid phone number." : "Enter a valid email.";
+                return;
+            }
+            document.getElementById('errorMsg').textContent = "";
+            showStep(1);
+        };
+        document.getElementById('toCaptchaBtn').onclick = function() {
+            if (document.getElementById('password').value.length < 8) {
+                document.getElementById('errorMsg').textContent = "Password must be at least 8 characters.";
+                return;
+            }
+            document.getElementById('errorMsg').textContent = "";
+            showStep(2);
+        };
+        document.getElementById('toOtpBtn').onclick = function() {
+            if (document.getElementById('captchaInput').value.trim().toUpperCase() !== captchaValue) {
+                document.getElementById('errorMsg').textContent = "Incorrect CAPTCHA. Please try again.";
+                generateCaptcha();
+                return;
+            }
+            document.getElementById('errorMsg').textContent = "";
+            showStep(3);
+        };
+
+        // 5. Animated Loading Spinner
+        function showSpinner(show) {
+            document.getElementById('spinner').style.display = show ? 'block' : 'none';
+        }
+
+        // 6. Login Attempt Lockout
+        let failedAttempts = 0, lockoutTime = 0, lockoutTimer;
+        function checkLockout() {
+            if (lockoutTime > Date.now()) {
+                document.getElementById('lockoutMsg').style.display = '';
+                let seconds = Math.ceil((lockoutTime - Date.now()) / 1000);
+                document.getElementById('lockoutMsg').textContent = `Too many failed attempts. Try again in ${seconds}s.`;
+                document.getElementById('loginBtn').disabled = true;
+                lockoutTimer = setTimeout(checkLockout, 1000);
+                return true;
+            } else {
+                document.getElementById('lockoutMsg').style.display = 'none';
+                document.getElementById('loginBtn').disabled = false;
+                clearTimeout(lockoutTimer);
+                return false;
+            }
+        }
+
+        // 7. ARIA labels are already present in form
+
+        // 8. Tooltips for Inputs (see info icon in password label)
+
+        // 9. Show Last Login Info (demo)
+        if (localStorage.getItem('medbook_last_login')) {
+            document.getElementById('lastLoginInfo').style.display = '';
+            document.getElementById('lastLoginInfo').textContent = "Last login: " + localStorage.getItem('medbook_last_login');
+        }
+
+        // 10. Terms & Privacy: see HTML
+
+        // 11. Responsive Animations: see CSS
+
+        // 12. Login as Guest
+        document.getElementById('guestLoginBtn').onclick = function() {
+            document.getElementById('successMsg').textContent = "Logged in as guest. Limited access.";
+            setTimeout(() => window.location.href = "index.hospital.html", 1200);
+        };
+
+        // 13. Session Timeout Warning (demo, not active on login page)
+        // Could be implemented on dashboard
+
+        // 14. Multi-step Login: handled above
+
+        // 15. Language Switcher: see HTML/CSS
+
+        // Multi-language support (simple demo)
+        const translations = {
+            en: {
+                loginTitle: "Login to MedBook",
+                emailLabel: "Email",
+                phoneLabel: "Phone Number",
+                passwordLabel: "Password",
+                rememberMe: "Remember me",
+                forgot: "Forgot password?",
+                register: "Register",
+                loginBtn: "Login",
+                otpLabel: "Enter OTP:",
+                showHint: "Show password hint",
+                guest: "Login as Guest"
+            },
+            ku: {
+                loginTitle: "چوونەژوورەوە بۆ MedBook",
+                emailLabel: "ئیمەیڵ",
+                phoneLabel: "ژمارەی مۆبایل",
+                passwordLabel: "وشەی نهێنی",
+                rememberMe: "بیرم بهێنە",
+                forgot: "وشەی نهێنیت لەبیرچوو؟",
+                register: "خۆت تۆمار بکە",
+                loginBtn: "چوونەژوورەوە",
+                otpLabel: "کۆدی OTP بنووسە:",
+                showHint: "ئاگاداری وشەی نهێنی پیشان بدە",
+                guest: "چوونەژوورەوە وەک میوان"
+            },
+            ar: {
+                loginTitle: "تسجيل الدخول إلى MedBook",
+                emailLabel: "البريد الإلكتروني",
+                phoneLabel: "رقم الهاتف",
+                passwordLabel: "كلمة المرور",
+                rememberMe: "تذكرني",
+                forgot: "نسيت كلمة المرور؟",
+                register: "تسجيل",
+                loginBtn: "دخول",
+                otpLabel: "أدخل رمز OTP:",
+                showHint: "عرض تلميح كلمة المرور",
+                guest: "الدخول كضيف"
+            }
+        };
+        document.getElementById('langSelect').onchange = function() {
+            const lang = this.value;
+            document.getElementById('loginTitle').textContent = translations[lang].loginTitle;
+            document.getElementById('emailLabel').textContent = translations[lang].emailLabel;
+            document.getElementById('phoneLabel').textContent = translations[lang].phoneLabel;
+            document.getElementById('passwordLabel').childNodes[0].textContent = translations[lang].passwordLabel + " ";
+            document.getElementById('rememberMeLabel').textContent = translations[lang].rememberMe;
+            document.getElementById('forgotPassword').textContent = translations[lang].forgot;
+            document.getElementById('registerLink').textContent = translations[lang].register;
+            document.getElementById('loginBtn').textContent = translations[lang].loginBtn;
+            document.getElementById('otpLabel').textContent = translations[lang].otpLabel;
+            document.getElementById('showHint').textContent = translations[lang].showHint;
+            document.getElementById('guestLoginBtn').innerHTML = `<i class="fas fa-user"></i> ${translations[lang].guest}`;
+        };
+
+        // Accessibility: High Contrast & Font Size
+        let highContrast = false;
+        function toggleContrast() {
+            highContrast = !highContrast;
+            document.body.style.background = highContrast ? "#000" : "linear-gradient(120deg, #f5f7fa 60%, #e0f7fa 100%)";
+            document.body.style.color = highContrast ? "#fff" : "var(--dark)";
+        }
+        let fontSize = 16;
+        function changeFontSize(delta) {
+            fontSize += delta;
+            if (fontSize < 12) fontSize = 12;
+            if (fontSize > 24) fontSize = 24;
+            document.body.style.fontSize = fontSize + "px";
+        }
+
+        // Password visibility toggle
+        document.querySelector('.toggle-password').onclick = function() {
+            const pwd = document.getElementById('password');
+            if (pwd.type === "password") {
+                pwd.type = "text";
+                this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                pwd.type = "password";
+                this.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        };
+
+        // Password hint (demo)
+        function showPasswordHint() {
+            document.getElementById('successMsg').textContent = "Hint: Try 'password123'";
+            setTimeout(() => document.getElementById('successMsg').textContent = '', 3000);
+        }
+
+        // Remember Me (demo: store email)
+        const emailInput = document.getElementById('email');
+        if (localStorage.getItem('medbook_remember_email')) {
+            emailInput.value = localStorage.getItem('medbook_remember_email');
+            document.getElementById('rememberMe').checked = true;
+        }
+        document.getElementById('rememberMe').onchange = function() {
+            if (this.checked) {
+                localStorage.setItem('medbook_remember_email', emailInput.value);
+            } else {
+                localStorage.removeItem('medbook_remember_email');
+            }
+        };
+        emailInput.oninput = function() {
+            if (document.getElementById('rememberMe').checked) {
+                localStorage.setItem('medbook_remember_email', emailInput.value);
+            }
+        };
+
+        // CAPTCHA (simple demo)
+        let captchaValue = "";
+        function generateCaptcha() {
+            captchaValue = Math.random().toString(36).substring(2, 8).toUpperCase();
+            document.getElementById('captchaImg').textContent = captchaValue;
+        }
+        generateCaptcha();
+
+        // Multi-step login submit
+        document.getElementById('loginForm').onsubmit = function(e) {
+            e.preventDefault();
+            if (checkLockout()) return;
+            showSpinner(true);
+            setTimeout(() => {
+                showSpinner(false);
+                // Only allow login if all steps are completed
+                let valid = false;
+                let email = document.getElementById('email').value.trim();
+                let phone = document.getElementById('phone').value.trim();
+                let pwd = document.getElementById('password').value;
+                let otp = document.getElementById('otp').value;
+                if ((!usingPhone && email === "user@medbook.com" && pwd === "password123" && otp === "123456") ||
+                    (usingPhone && phone === "+9647000000000" && pwd === "password123" && otp === "123456")) {
+                    document.getElementById('successMsg').textContent = "Login successful! Redirecting...";
+                    localStorage.setItem('medbook_last_login', new Date().toLocaleString());
+                    setTimeout(() => window.location.href = "index.hospital.html", 1200);
+                } else {
+                    failedAttempts++;
+                    if (failedAttempts >= 3) {
+                        lockoutTime = Date.now() + 30 * 1000;
+                        checkLockout();
+                    }
+                    document.getElementById('errorMsg').textContent = "Invalid credentials or OTP.";
+                }
+            }, 900);
+        };
+
+        // OTP Verification (demo, for step-by-step)
+        document.getElementById('verifyOtpBtn').onclick = function() {
+            if (document.getElementById('otp').value === "123456") {
+                document.getElementById('successMsg').textContent = "OTP verified! You can now login.";
+                showStep(4);
+            } else {
+                document.getElementById('errorMsg').textContent = "Invalid OTP. Try again.";
+            }
+        };
+
+        // Social login (demo)
+        document.querySelectorAll('.social-login button').forEach(btn => {
+            btn.onclick = () => alert("Social login is a demo only.");
+        });
+
+        // Biometric login (WebAuthn demo)
+        document.getElementById('biometricBtn').onclick = async function() {
+            if (window.PublicKeyCredential) {
+                document.getElementById('successMsg').textContent = "Biometric login simulated (WebAuthn).";
+            } else {
+                document.getElementById('errorMsg').textContent = "Biometric login not supported on this device.";
+            }
+        };
+
+        // Forgot password (demo)
+        document.getElementById('forgotPassword').onclick = function(e) {
+            e.preventDefault();
+            const email = prompt("Enter your email to reset password:");
+            if (email) {
+                document.getElementById('successMsg').textContent = "Password reset link sent (demo).";
+            }
+        };
+
+        // Register link (demo)
+        document.getElementById('registerLink').onclick = function(e) {
+            e.preventDefault();
+            alert("Registration page coming soon!");
+        };
+    </script>
+</body>
+</html>

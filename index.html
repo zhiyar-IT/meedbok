@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MedBook Hospital - Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #005BAA;
+            --secondary: #008080;
+            --accent: #FF6B6B;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+        html, body {
+            height: 100%;
+        }
+        body {
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #f5f7fa 60%, #e0f7fa 100%);
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo i {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+        .logo h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.08rem;
+            transition: color 0.2s;
+            padding: 8px 0;
+            position: relative;
+        }
+        nav ul li a.active, nav ul li a:hover {
+            color: var(--primary);
+        }
+        nav ul li a.active::after, nav ul li a:hover::after {
+            content: '';
+            display: block;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+        }
+        .hero {
+            background: linear-gradient(120deg, #005BAA 60%, #008080 100%);
+            color: #fff;
+            text-align: center;
+            padding: 90px 20px 70px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 32px;
+            color: #e0f7fa;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            padding: 14px 36px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 12px #ff6b6b33;
+            border: none;
+            cursor: pointer;
+        }
+        .hero .btn-primary:hover {
+            background: #FF4B4B;
+            box-shadow: 0 4px 24px #ff6b6b44;
+        }
+        .hero-graphic {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 320px;
+            opacity: 0.13;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .hero .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 48px;
+            z-index: 1;
+            position: relative;
+        }
+        .hero .stat {
+            background: rgba(255,255,255,0.13);
+            border-radius: 12px;
+            padding: 18px 32px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 2px 12px #005baa22;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.18s;
+        }
+        .hero .stat i {
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+        .features-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px 40px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 36px;
+        }
+        .feature-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px #005baa11;
+            padding: 36px 24px 32px 24px;
+            text-align: center;
+            transition: box-shadow 0.18s, transform 0.18s;
+            border: 1.5px solid #e0e0e0;
+            position: relative;
+        }
+        .feature-card:hover {
+            box-shadow: 0 8px 32px #005baa22;
+            transform: translateY(-4px) scale(1.025);
+            border-color: var(--primary);
+        }
+        .feature-card i {
+            font-size: 2.3rem;
+            color: var(--primary);
+            margin-bottom: 18px;
+        }
+        .feature-card h3 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+        .feature-card p {
+            color: var(--gray);
+            font-size: 1.05rem;
+        }
+        .feature-card .learn-more {
+            display: inline-block;
+            margin-top: 18px;
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: underline;
+            font-size: 1rem;
+            transition: color 0.18s;
+        }
+        .feature-card .learn-more:hover {
+            color: var(--accent);
+        }
+        .cta-section {
+            background: linear-gradient(120deg, #008080 60%, #005BAA 100%);
+            color: #fff;
+            text-align: center;
+            padding: 60px 20px 50px 20px;
+            margin-top: 40px;
+            border-radius: 0 0 32px 32px;
+        }
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 18px;
+            font-weight: 700;
+        }
+        .cta-section p {
+            font-size: 1.15rem;
+            margin-bottom: 28px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cta-section .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            padding: 14px 36px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 12px #ff6b6b33;
+            border: none;
+            cursor: pointer;
+        }
+        .cta-section .btn-primary:hover {
+            background: #FF4B4B;
+            box-shadow: 0 4px 24px #ff6b6b44;
+        }
+        .contact-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 20px 30px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 36px;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .contact-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px #005baa11;
+            padding: 32px 24px;
+            text-align: center;
+            border: 1.5px solid #e0e0e0;
+            flex: 1 1 320px;
+            min-width: 280px;
+            max-width: 400px;
+        }
+        .contact-card i {
+            font-size: 2.1rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        .contact-card h3 {
+            font-size: 1.18rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .contact-card p, .contact-card a {
+            color: var(--gray);
+            font-size: 1.05rem;
+        }
+        .contact-card a {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        .contact-card .btn-primary {
+            margin-top: 18px;
+        }
+        footer {
+            background: var(--dark);
+            color: #fff;
+            padding: 32px 0 18px 0;
+            text-align: center;
+        }
+        .footer-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 22px;
+            margin: 0 0 12px 0;
+            padding: 0;
+        }
+        .footer-links li a {
+            color: #fff;
+            font-size: 1.2rem;
+            transition: color 0.2s;
+        }
+        .footer-links li a:hover {
+            color: var(--primary);
+        }
+        /* --- Testimonials Carousel (Feature 3) --- */
+        .testimonials-section {
+            background: #f8f9fa;
+            padding: 40px 0;
+        }
+        #testimonialCarousel {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        #testimonialCarousel .testimonial {
+            display: none;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px #005baa11;
+            padding: 24px 18px;
+            margin-bottom: 8px;
+            min-height: 100px;
+        }
+        #testimonialCarousel .testimonial:first-child {
+            display: block;
+        }
+        #testimonialCarousel button {
+            margin-top: 18px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        #testimonialCarousel button:hover {
+            background: var(--accent);
+        }
+        /* --- FAQ Section (Feature 5) --- */
+        .faq button {
+            width: 100%;
+            text-align: left;
+            background: #f5f7fa;
+            border: none;
+            padding: 14px 12px;
+            font-size: 1.08rem;
+            color: var(--primary);
+            font-weight: 600;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: background 0.18s;
+        }
+        .faq button:hover {
+            background: #e0f7fa;
+        }
+        .faq-answer {
+            display: none;
+            padding: 0 12px 12px 12px;
+            background: #fff;
+            border-radius: 0 0 8px 8px;
+            color: var(--gray);
+            font-size: 1.02rem;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px #005baa11;
+        }
+        /* --- Newsletter Signup (Feature 4) --- */
+        #newsletterForm {
+            max-width: 400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 8px;
+        }
+        #newsletterForm input[type="email"] {
+            flex: 1;
+            padding: 10px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+        }
+        #newsletterForm button {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.18s;
+        }
+        #newsletterForm button:hover {
+            background: #FF4B4B;
+        }
+        #newsletterMsg {
+            margin-top: 10px;
+            color: #fff;
+            font-size: 1.05rem;
+        }
+        /* --- Accessibility Tools (Feature 6) --- */
+        .accessibility-tools {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 2000;
+            display: flex;
+            gap: 8px;
+        }
+        .accessibility-tools button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.18s;
+        }
+        .accessibility-tools button:hover {
+            background: var(--accent);
+        }
+        /* --- Quick Links Bar (Feature 7) --- */
+        #quickLinksBar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--primary);
+            color: #fff;
+            z-index: 1500;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 0;
+        }
+        #quickLinksBar a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: color 0.18s;
+        }
+        #quickLinksBar a:hover {
+            color: var(--accent);
+        }
+        /* --- Language Switcher (Feature 8) --- */
+        .lang-switcher {
+            position: fixed;
+            top: 18px;
+            left: 18px;
+            z-index: 2000;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px #005baa22;
+            padding: 6px 14px;
+            font-size: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .lang-switcher select {
+            border: none;
+            background: none;
+            font-size: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+            outline: none;
+        }
+        /* --- Animated Counters (Feature 9) --- */
+        .hero .stat {
+            background: rgba(255,255,255,0.13);
+            border-radius: 12px;
+            padding: 18px 32px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 2px 12px #005baa22;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.18s;
+        }
+        .hero .stat i {
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+        /* --- Google Maps Embed (Feature 10) --- */
+        .find-us-section {
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+        }
+        .find-us-section h2 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .find-us-section .map-container {
+            width: 100%;
+            height: 320px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 16px #005baa11;
+        }
+        /* --- Health Tips & Blog (Feature 11) --- */
+        .health-tips-section {
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+            padding: 0 20px;
+        }
+        .health-tips-section h2 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .health-tips-section .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+        .health-tips-section .tip-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px #005baa11;
+            padding: 18px;
+        }
+        .health-tips-section .tip-card h4 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+        .health-tips-section .tip-card p {
+            color: var(--gray);
+        }
+        /* --- Insurance & Payment Info (Feature 12) --- */
+        .insurance-section {
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+            padding: 0 20px;
+        }
+        .insurance-section h2 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .insurance-section .insurance-info {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px #005baa11;
+            padding: 18px;
+            text-align: center;
+            color: var(--gray);
+            font-size: 1.08rem;
+        }
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .features-section { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 900px) {
+            .features-section { grid-template-columns: 1fr; }
+            .nav-container { flex-direction: column; height: auto; gap: 12px; }
+            .contact-section { flex-direction: column; align-items: stretch; }
+        }
+        @media (max-width: 700px) {
+            #quickLinksBar { display: flex !important; }
+            .testimonials-section, .faq, .find-us-section, .health-tips-section, .insurance-section {
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+        @media (max-width: 600px) {
+            .hero h2 { font-size: 2rem; }
+            .cta-section h2 { font-size: 1.3rem; }
+            .feature-card { padding: 22px 10px; }
+            .contact-card { padding: 18px 8px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-hospital-symbol"></i>
+                <h1>MedBook</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.hospital.html" class="active">Home</a></li>
+                    <li><a href="hospital-prices.html">Prices</a></li>
+                    <li><a href="doctor-schedule.html">Doctors</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="index.htmlloginn.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h2>Modern Healthcare, Transparent Prices</h2>
+        <p>Welcome to MedBook Hospital – your trusted partner for affordable, high-quality medical care. Explore our services, check prices, and book appointments with ease.</p>
+        <a href="hospital-prices.html" class="btn-primary">View Prices</a>
+        <div class="stats-bar">
+            <div class="stat"><i class="fas fa-user-md"></i> 50+ Doctors</div>
+            <div class="stat"><i class="fas fa-bed"></i> 200+ Beds</div>
+            <div class="stat"><i class="fas fa-calendar-check"></i> 24/7 Service</div>
+            <div class="stat"><i class="fas fa-star"></i> 4.9/5 Rating</div>
+        </div>
+        <img src="https://cdn.pixabay.com/photo/2017/01/31/13/14/medical-2027777_1280.png" alt="Hospital Illustration" class="hero-graphic">
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="feature-card">
+            <i class="fas fa-user-md"></i>
+            <h3>Expert Doctors</h3>
+            <p>Consult with experienced specialists in every field, from cardiology to pediatrics.</p>
+            <a href="doctor-schedule.html" class="learn-more">Learn more</a>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-money-check-alt"></i>
+            <h3>Transparent Pricing</h3>
+            <p>All our prices are clear and upfront. No hidden fees, ever.</p>
+            <a href="hospital-prices.html" class="learn-more">See prices</a>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-calendar-check"></i>
+            <h3>Easy Appointments</h3>
+            <p>Book, reschedule, or cancel appointments online in seconds.</p>
+            <a href="doctor-schedule.html" class="learn-more">Book now</a>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-hand-holding-heart"></i>
+            <h3>Financial Assistance</h3>
+            <p>We support patients in need with dedicated financial aid programs.</p>
+            <a href="#contact" class="learn-more">Contact us</a>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Safe & Secure</h3>
+            <p>Your privacy and safety are our top priorities, both online and in person.</p>
+            <a href="#about" class="learn-more">Our promise</a>
+        </div>
+        <div class="feature-card">
+            <i class="fas fa-laptop-medical"></i>
+            <h3>Modern Facilities</h3>
+            <p>State-of-the-art equipment and digital records for seamless care.</p>
+            <a href="#about" class="learn-more">Discover more</a>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="about">
+        <h2>Why Choose MedBook?</h2>
+        <p>
+            We combine compassionate care with modern technology to deliver the best outcomes for our patients. 
+            Our team is here for you 24/7, whether you need a routine checkup or specialized treatment.<br>
+            <span style="color:#e0f7fa;font-size:1.05rem;">Your health, our mission.</span>
+        </p>
+        <a href="doctor-schedule.html" class="btn-primary">Meet Our Doctors</a>
+    </section>
+
+    <!-- Testimonials Carousel (Feature 3) -->
+    <section class="testimonials-section" style="background:#f8f9fa;padding:40px 0;">
+        <h2 style="text-align:center;color:var(--primary);margin-bottom:24px;">What Our Patients Say</h2>
+        <div id="testimonialCarousel" style="max-width:600px;margin:0 auto;text-align:center;">
+            <div class="testimonial" style="display:block;">
+                <p style="font-size:1.15rem;">"MedBook made my surgery affordable and stress-free. The staff is amazing!"</p>
+                <span style="color:var(--gray);">- Sara M.</span>
+            </div>
+            <div class="testimonial" style="display:none;">
+                <p style="font-size:1.15rem;">"Booking appointments online is so easy. Highly recommended!"</p>
+                <span style="color:var(--gray);">- Ahmed K.</span>
+            </div>
+            <div class="testimonial" style="display:none;">
+                <p style="font-size:1.15rem;">"Transparent prices and great doctors. Thank you MedBook!"</p>
+                <span style="color:var(--gray);">- Baran J.</span>
+            </div>
+            <button onclick="nextTestimonial()" style="margin-top:18px;background:var(--primary);color:#fff;border:none;padding:8px 18px;border-radius:6px;cursor:pointer;">Next</button>
+        </div>
+    </section>
+
+    <!-- FAQ Section (Feature 5) -->
+    <section style="max-width:800px;margin:40px auto 0 auto;padding:0 20px;">
+        <h2 style="color:var(--primary);text-align:center;margin-bottom:18px;">Frequently Asked Questions</h2>
+        <div class="faq">
+            <div>
+                <button onclick="toggleFaq(0)" style="width:100%;text-align:left;background:#f5f7fa;border:none;padding:14px 12px;font-size:1.08rem;color:var(--primary);font-weight:600;border-radius:8px;margin-bottom:6px;cursor:pointer;">How do I book an appointment?</button>
+                <div class="faq-answer" style="display:none;padding:0 12px 12px 12px;">Go to the Doctors page, filter by specialty, and click "Book Appointment" on your chosen doctor.</div>
+            </div>
+            <div>
+                <button onclick="toggleFaq(1)" style="width:100%;text-align:left;background:#f5f7fa;border:none;padding:14px 12px;font-size:1.08rem;color:var(--primary);font-weight:600;border-radius:8px;margin-bottom:6px;cursor:pointer;">Are your prices fixed?</button>
+                <div class="faq-answer" style="display:none;padding:0 12px 12px 12px;">Yes, all prices are transparent and listed on our Prices page.</div>
+            </div>
+            <div>
+                <button onclick="toggleFaq(2)" style="width:100%;text-align:left;background:#f5f7fa;border:none;padding:14px 12px;font-size:1.08rem;color:var(--primary);font-weight:600;border-radius:8px;margin-bottom:6px;cursor:pointer;">Do you offer financial assistance?</button>
+                <div class="faq-answer" style="display:none;padding:0 12px 12px 12px;">Yes, please contact us for details about our assistance programs.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Signup (Feature 4) -->
+    <section style="background:var(--primary);color:#fff;text-align:center;padding:38px 20px 32px 20px;margin-top:40px;">
+        <h2 style="margin-bottom:12px;">Stay Updated</h2>
+        <p style="margin-bottom:18px;">Subscribe to our newsletter for health tips and hospital news.</p>
+        <form id="newsletterForm" style="max-width:400px;margin:0 auto;display:flex;gap:8px;">
+            <input type="email" id="newsletterEmail" placeholder="Your email" required style="flex:1;padding:10px;border-radius:6px;border:none;">
+            <button type="submit" style="background:var(--accent);color:#fff;border:none;padding:10px 22px;border-radius:6px;font-weight:600;cursor:pointer;">Subscribe</button>
+        </form>
+        <div id="newsletterMsg" style="margin-top:10px;"></div>
+    </section>
+
+    <!-- Accessibility Tools (Feature 6) -->
+    <div style="position:fixed;bottom:24px;right:24px;z-index:2000;">
+        <button onclick="toggleContrast()" title="Toggle High Contrast" style="background:var(--primary);color:#fff;border:none;padding:10px 14px;border-radius:50%;font-size:1.2rem;margin-right:8px;"><i class="fas fa-adjust"></i></button>
+        <button onclick="changeFontSize(1)" title="Increase Font Size" style="background:var(--primary);color:#fff;border:none;padding:10px 14px;border-radius:50%;font-size:1.2rem;margin-right:8px;"><i class="fas fa-plus"></i></button>
+        <button onclick="changeFontSize(-1)" title="Decrease Font Size" style="background:var(--primary);color:#fff;border:none;padding:10px 14px;border-radius:50%;font-size:1.2rem;"><i class="fas fa-minus"></i></button>
+    </div>
+
+    <!-- Quick Links Bar (Feature 7) -->
+    <nav id="quickLinksBar" style="display:none;position:fixed;bottom:0;left:0;width:100%;background:var(--primary);color:#fff;z-index:1500;justify-content:space-around;align-items:center;padding:8px 0;">
+        <a href="#about" style="color:#fff;text-decoration:none;font-size:1.1rem;"><i class="fas fa-info-circle"></i><br>About</a>
+        <a href="#contact" style="color:#fff;text-decoration:none;font-size:1.1rem;"><i class="fas fa-envelope"></i><br>Contact</a>
+        <a href="doctor-schedule.html" style="color:#fff;text-decoration:none;font-size:1.1rem;"><i class="fas fa-user-md"></i><br>Doctors</a>
+        <a href="hospital-prices.html" style="color:#fff;text-decoration:none;font-size:1.1rem;"><i class="fas fa-money-check-alt"></i><br>Prices</a>
+        <a href="index.htmlloginn.html" style="color:#fff;text-decoration:none;font-size:1.1rem;"><i class="fas fa-sign-in-alt"></i><br>Login</a>
+    </nav>
+
+    <!-- Language Switcher (Feature 8) -->
+    <div style="position:fixed;top:18px;left:18px;z-index:2000;background:#fff;border-radius:8px;box-shadow:0 2px 8px #005baa22;padding:6px 14px;font-size:1rem;color:var(--primary);font-weight:600;">
+        <label for="langSelect"><i class="fas fa-globe"></i></label>
+        <select id="langSelect">
+            <option value="en">English</option>
+            <option value="ku">Kurdish</option>
+            <option value="ar">Arabic</option>
+        </select>
+    </div>
+
+    <!-- Animated Counters (Feature 9) -->
+    <script>
+    function animateCounters() {
+        document.querySelectorAll('.stat').forEach(stat => {
+            const text = stat.textContent.match(/\d+/);
+            if (!text) return;
+            const target = +text[0];
+            let count = 0;
+            const update = () => {
+                count += Math.ceil(target / 40);
+                if (count > target) count = target;
+                stat.innerHTML = stat.innerHTML.replace(/\d+/, count);
+                if (count < target) setTimeout(update, 30);
+            };
+            update();
+        });
+    }
+    window.addEventListener('DOMContentLoaded', animateCounters);
+    </script>
+
+    <!-- Google Maps Embed (Feature 10) -->
+    <section style="max-width:900px;margin:40px auto 0 auto;">
+        <h2 style="color:var(--primary);text-align:center;margin-bottom:18px;">Find Us</h2>
+        <div style="width:100%;height:320px;border-radius:16px;overflow:hidden;box-shadow:0 2px 16px #005baa11;">
+            <iframe src="https://www.google.com/maps?q=Erbil,Health+City&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+
+    <!-- Health Tips & Blog (Feature 11) -->
+    <section style="max-width:900px;margin:40px auto 0 auto;padding:0 20px;">
+        <h2 style="color:var(--primary);text-align:center;margin-bottom:18px;">Health Tips & News</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;">
+            <div style="background:#fff;border-radius:12px;box-shadow:0 2px 12px #005baa11;padding:18px;">
+                <h4 style="color:var(--primary);margin-top:0;">5 Ways to Boost Your Immune System</h4>
+                <p style="color:var(--gray);">Eat healthy, exercise, sleep well, manage stress, and stay hydrated. <a href="#" style="color:var(--primary);text-decoration:underline;">Read more</a></p>
+            </div>
+            <div style="background:#fff;border-radius:12px;box-shadow:0 2px 12px #005baa11;padding:18px;">
+                <h4 style="color:var(--primary);margin-top:0;">How to Prepare for Surgery</h4>
+                <p style="color:var(--gray);">Follow your doctor's instructions, arrange transport, and ask questions. <a href="#" style="color:var(--primary);text-decoration:underline;">Read more</a></p>
+            </div>
+            <div style="background:#fff;border-radius:12px;box-shadow:0 2px 12px #005baa11;padding:18px;">
+                <h4 style="color:var(--primary);margin-top:0;">Understanding Transparent Pricing</h4>
+                <p style="color:var(--gray);">We believe in clear, upfront costs for all services. <a href="#" style="color:var(--primary);text-decoration:underline;">Read more</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Insurance & Payment Info (Feature 12) -->
+    <section style="max-width:900px;margin:40px auto 0 auto;padding:0 20px;">
+        <h2 style="color:var(--primary);text-align:center;margin-bottom:18px;">Insurance & Payment</h2>
+        <div style="background:#fff;border-radius:12px;box-shadow:0 2px 12px #005baa11;padding:18px;text-align:center;">
+            <p style="color:var(--gray);font-size:1.08rem;">
+                We accept MedBookCare, HealthPlus, and most major insurance plans.<br>
+                Pay online or at the hospital. <a href="hospital-prices.html" style="color:var(--primary);text-decoration:underline;">See accepted insurance</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="contact-card">
+            <i class="fas fa-envelope"></i>
+            <h3>Email Us</h3>
+            <p>
+                <a href="mailto:info@medbook.com">info@medbook.com</a>
+            </p>
+        </div>
+        <div class="contact-card">
+            <i class="fas fa-phone"></i>
+            <h3>Call Us</h3>
+            <p>
+                <a href="tel:+1234567890">07504443423</a>
+                <a href="tel:+1234567890">07504443444</a>
+            </p>
+        </div>
+        <div class="contact-card">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Visit Us</h3>
+            <p>
+                123 MedBook Ave,<br>Health City
+            </p>
+        </div>
+        <div class="contact-card">
+            <i class="fas fa-comments"></i>
+            <h3>Request Info</h3>
+            <form style="margin-top:10px;">
+                <input type="text" placeholder="Your Name" required style="width:90%;margin-bottom:8px;padding:7px;border-radius:6px;border:1px solid #e0e0e0;">
+                <input type="email" placeholder="Your Email" required style="width:90%;margin-bottom:8px;padding:7px;border-radius:6px;border:1px solid #e0e0e0;">
+                <textarea placeholder="Message" required style="width:90%;margin-bottom:8px;padding:7px;border-radius:6px;border:1px solid #e0e0e0;resize:vertical;"></textarea>
+                <button type="submit" class="btn-primary" style="width:95%;">Send</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <ul class="footer-links">
+            <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+        </ul>
+        <p>&copy; 2025 MedBook Hospital. All rights reserved.</p>
+    </footer>
+
+    <script>
+    // Testimonials Carousel
+    let currentTestimonial = 0;
+    function nextTestimonial() {
+        const testimonials = document.querySelectorAll('#testimonialCarousel .testimonial');
+        testimonials[currentTestimonial].style.display = 'none';
+        currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+        testimonials[currentTestimonial].style.display = 'block';
+    }
+
+    // FAQ Toggle
+    function toggleFaq(idx) {
+        const answers = document.querySelectorAll('.faq-answer');
+        answers[idx].style.display = answers[idx].style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Newsletter Signup
+    document.getElementById('newsletterForm').onsubmit = function(e) {
+        e.preventDefault();
+        const email = document.getElementById('newsletterEmail').value;
+        document.getElementById('newsletterMsg').textContent = "Thank you for subscribing!";
+        this.reset();
+    };
+
+    // Accessibility: High Contrast & Font Size
+    let highContrast = false;
+    function toggleContrast() {
+        highContrast = !highContrast;
+        document.body.style.background = highContrast ? "#000" : "linear-gradient(120deg, #f5f7fa 60%, #e0f7fa 100%)";
+        document.body.style.color = highContrast ? "#fff" : "var(--dark)";
+    }
+    let fontSize = 16;
+    function changeFontSize(delta) {
+        fontSize += delta;
+        if (fontSize < 12) fontSize = 12;
+        if (fontSize > 24) fontSize = 24;
+        document.body.style.fontSize = fontSize + "px";
+    }
+
+    // Quick Links Bar (show on mobile)
+    function showQuickLinksBar() {
+        if (window.innerWidth < 700) {
+            document.getElementById('quickLinksBar').style.display = 'flex';
+        } else {
+            document.getElementById('quickLinksBar').style.display = 'none';
+        }
+    }
+    window.addEventListener('resize', showQuickLinksBar);
+    window.addEventListener('DOMContentLoaded', showQuickLinksBar);
+
+    // Language Switcher (demo)
+    const langTexts = {
+        en: {
+            hero: "Modern Healthcare, Transparent Prices",
+            cta: "Why Choose MedBook?",
+            contact: "Contact Us"
+        },
+        ku: {
+            hero: "تندرستیی نوێ، نرخە ڕووناکەکان",
+            cta: "بۆچی MedBook هەلبژێرە؟",
+            contact: "پەیوەندی بکە"
+        },
+        ar: {
+            hero: "رعاية صحية حديثة وأسعار شفافة",
+            cta: "لماذا تختار MedBook؟",
+            contact: "اتصل بنا"
+        }
+    };
+    document.getElementById('langSelect').onchange = function() {
+        const lang = this.value;
+        document.querySelector('.hero h2').textContent = langTexts[lang].hero;
+        document.querySelector('.cta-section h2').textContent = langTexts[lang].cta;
+        document.querySelector('.contact-section .contact-card h3').textContent = langTexts[lang].contact;
+    };
+    </script>
+</body>
+</html>

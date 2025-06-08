@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MedBook Hospital - Doctor Schedule</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #005BAA;
+            --secondary: #008080;
+            --accent: #FF6B6B;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+        body {
+            font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #f5f7fa 60%, #e0f7fa 100%);
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo i {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+        .logo h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.08rem;
+            transition: color 0.2s;
+            padding: 8px 0;
+            position: relative;
+        }
+        nav ul li a.active, nav ul li a:hover {
+            color: var(--primary);
+        }
+        nav ul li a.active::after, nav ul li a:hover::after {
+            content: '';
+            display: block;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+        }
+        .hero {
+            background: linear-gradient(120deg, #005BAA 60%, #008080 100%);
+            color: #fff;
+            text-align: center;
+            padding: 70px 20px 50px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 18px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .hero p {
+            font-size: 1.18rem;
+            margin-bottom: 32px;
+            color: #e0f7fa;
+        }
+        .hero .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            padding: 13px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.08rem;
+            transition: background 0.2s;
+            box-shadow: 0 2px 12px #ff6b6b33;
+        }
+        .hero .btn-primary:hover {
+            background: #FF4B4B;
+        }
+        .hero-graphic {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 300px;
+            opacity: 0.13;
+            pointer-events: none;
+        }
+        .search-bar {
+            max-width: 900px;
+            margin: 0 auto 30px auto;
+            display: flex;
+            gap: 12px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px #005baa11;
+            padding: 12px 18px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .search-bar input, .search-bar select {
+            border: 1px solid #e0e0e0;
+            border-radius: 7px;
+            padding: 9px 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+        }
+        .search-bar button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 9px 18px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.18s;
+        }
+        .search-bar button:hover {
+            background: var(--secondary);
+        }
+        .schedule-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 30px 20px;
+        }
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 32px;
+        }
+        .doctor-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px #005baa11;
+            padding: 28px 20px 22px 20px;
+            text-align: center;
+            border: 1.5px solid #e0e0e0;
+            position: relative;
+            transition: box-shadow 0.18s, transform 0.18s, border-color 0.18s;
+        }
+        .doctor-card:hover {
+            box-shadow: 0 8px 32px #005baa22;
+            transform: translateY(-4px) scale(1.025);
+            border-color: var(--primary);
+        }
+        .doctor-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 14px;
+            border: 3px solid var(--primary);
+        }
+        .doctor-card h3 {
+            font-size: 1.18rem;
+            color: var(--primary);
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+        .doctor-card .specialty {
+            color: var(--secondary);
+            font-size: 1.05rem;
+            margin-bottom: 10px;
+        }
+        .doctor-card .schedule-table {
+            width: 100%;
+            margin: 12px 0 0 0;
+            border-collapse: collapse;
+            font-size: 0.98rem;
+        }
+        .doctor-card .schedule-table th,
+        .doctor-card .schedule-table td {
+            padding: 6px 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .doctor-card .schedule-table th {
+            background: #f5f7fa;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .doctor-card .schedule-table td {
+            color: var(--dark);
+        }
+        .doctor-card .btn-book {
+            margin-top: 12px;
+            background: var(--accent);
+            color: #fff;
+            padding: 9px 22px;
+            border-radius: 7px;
+            border: none;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.18s;
+        }
+        .doctor-card .btn-book:hover {
+            background: #FF4B4B;
+        }
+        .doctor-card .rating {
+            margin-top: 8px;
+            color: #FFD700;
+            font-size: 1.1rem;
+        }
+        .doctor-card .bio {
+            color: var(--gray);
+            font-size: 0.98rem;
+            margin-top: 8px;
+        }
+        .doctor-card .contact {
+            margin-top: 10px;
+            font-size: 0.97rem;
+        }
+        .doctor-card .contact a {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        .doctor-card .contact a:hover {
+            color: var(--accent);
+        }
+        .doctor-card .availability {
+            margin-top: 6px;
+            color: var(--secondary);
+            font-size: 0.97rem;
+        }
+        .doctor-card .tags {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            justify-content: center;
+        }
+        .doctor-card .tag {
+            background: #e0f7fa;
+            color: var(--primary);
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+        .doctor-card .online {
+            color: #2ecc40;
+            font-weight: 700;
+            margin-left: 6px;
+        }
+        .doctor-card .offline {
+            color: #aaa;
+            font-weight: 700;
+            margin-left: 6px;
+        }
+        .doctor-card .video {
+            color: var(--secondary);
+            margin-left: 4px;
+        }
+        .doctor-card .chat {
+            color: var(--accent);
+            margin-left: 4px;
+        }
+        .doctor-card .call {
+            color: var(--primary);
+            margin-left: 4px;
+        }
+        .doctor-card .languages {
+            margin-top: 7px;
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        .doctor-card .languages i {
+            margin-right: 3px;
+        }
+        .doctor-card .experience {
+            margin-top: 7px;
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        .doctor-card .experience i {
+            margin-right: 3px;
+        }
+        .doctor-card .social {
+            margin-top: 10px;
+        }
+        .doctor-card .social a {
+            color: var(--primary);
+            margin: 0 5px;
+            font-size: 1.1rem;
+            transition: color 0.18s;
+        }
+        .doctor-card .social a:hover {
+            color: var(--accent);
+        }
+        .doctor-card .review-section {
+            margin-top: 18px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 10px 8px 8px 8px;
+        }
+        .doctor-card .review-section h4 {
+            margin: 0 0 8px 0;
+            font-size: 1.05rem;
+            color: var(--primary);
+        }
+        .doctor-card .review-list {
+            max-height: 70px;
+            overflow-y: auto;
+            margin-bottom: 8px;
+        }
+        .doctor-card .review {
+            font-size: 0.97rem;
+            color: var(--dark);
+            margin-bottom: 4px;
+            text-align: left;
+        }
+        .doctor-card .review .reviewer {
+            color: var(--gray);
+            font-size: 0.92rem;
+            margin-left: 6px;
+        }
+        .doctor-card .review-form input,
+        .doctor-card .review-form textarea {
+            width: 95%;
+            margin-bottom: 5px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #e0e0e0;
+            font-size: 0.97rem;
+        }
+        .doctor-card .review-form button {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 14px;
+            font-size: 0.97rem;
+            cursor: pointer;
+            margin-top: 2px;
+        }
+        .doctor-card .review-form button:hover {
+            background: var(--secondary);
+        }
+        .doctor-card .waitlist {
+            margin-top: 10px;
+            font-size: 0.97rem;
+        }
+        .doctor-card .waitlist input {
+            width: 70%;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #e0e0e0;
+            font-size: 0.97rem;
+        }
+        .doctor-card .waitlist button {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 0.97rem;
+            cursor: pointer;
+            margin-left: 4px;
+        }
+        .doctor-card .waitlist button:hover {
+            background: #FF4B4B;
+        }
+        .doctor-card .compare-btn {
+            margin-top: 10px;
+            background: var(--secondary);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 7px 18px;
+            font-weight: 600;
+            font-size: 0.97rem;
+            cursor: pointer;
+            transition: background 0.18s;
+        }
+        .doctor-card .compare-btn.selected {
+            background: var(--primary);
+        }
+        .doctor-card .compare-btn:hover {
+            background: var(--primary);
+        }
+        .doctor-card .insurance {
+            margin-top: 8px;
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        .doctor-card .insurance i {
+            margin-right: 3px;
+        }
+        .doctor-card .accessibility {
+            margin-top: 8px;
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+        .doctor-card .accessibility i {
+            margin-right: 3px;
+        }
+        .doctor-card .profile-link {
+            display: block;
+            margin-top: 10px;
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: underline;
+            font-size: 0.98rem;
+        }
+        .doctor-card .profile-link:hover {
+            color: var(--accent);
+        }
+        .no-results {
+            text-align: center;
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-top: 40px;
+        }
+        .calendar-section {
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+            padding: 0 20px;
+        }
+        .calendar-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 18px;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px #005baa11;
+        }
+        .calendar-table th, .calendar-table td {
+            border: 1px solid #e0e0e0;
+            padding: 8px 10px;
+            text-align: center;
+        }
+        .calendar-table th {
+            background: #f5f7fa;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .calendar-table td {
+            color: var(--dark);
+        }
+        .calendar-table .available {
+            background: #e0f7fa;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        .calendar-table .full {
+            background: #ffdddd;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .calendar-table .waitlist-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 3px 10px;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+        .calendar-table .waitlist-btn:hover {
+            background: #FF4B4B;
+        }
+        .compare-bar {
+            max-width: 1200px;
+            margin: 30px auto 0 auto;
+            padding: 18px 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px #005baa11;
+            display: none;
+            gap: 24px;
+            align-items: flex-start;
+            overflow-x: auto;
+        }
+        .compare-bar.active {
+            display: flex;
+        }
+        .compare-card {
+            min-width: 260px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 18px 12px;
+            margin-right: 12px;
+            box-shadow: 0 2px 8px #005baa11;
+            border: 1px solid #e0e0e0;
+        }
+        .compare-card h4 {
+            color: var(--primary);
+            margin: 0 0 8px 0;
+            font-size: 1.08rem;
+        }
+        .compare-card .close-btn {
+            float: right;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        .lang-switcher {
+            position: fixed;
+            top: 18px;
+            left: 18px;
+            z-index: 2000;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px #005baa22;
+            padding: 6px 14px;
+            font-size: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid #e0e0e0;
+        }
+        .lang-switcher select {
+            border: none;
+            background: none;
+            font-size: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+            outline: none;
+        }
+        @media (max-width: 900px) {
+            .doctor-grid { grid-template-columns: 1fr; }
+            .nav-container { flex-direction: column; height: auto; gap: 12px; }
+            .calendar-section { padding: 0 5px; }
+        }
+        @media (max-width: 600px) {
+            .hero h2 { font-size: 1.5rem; }
+            .doctor-card { padding: 14px 5px; }
+            .calendar-table th, .calendar-table td { padding: 4px 2px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <label for="langSelect"><i class="fas fa-globe"></i></label>
+        <select id="langSelect">
+            <option value="en">English</option>
+            <option value="ku">Kurdish</option>
+            <option value="ar">Arabic</option>
+        </select>
+    </div>
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-hospital-symbol"></i>
+                <h1>MedBook</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.hospital.html">Home</a></li>
+                    <li><a href="hospital-prices.html">Prices</a></li>
+                    <li><a href="doctor-schedule.html" class="active">Doctors</a></li>
+                    <li><a href="index.hospital.html#about">About</a></li>
+                    <li><a href="index.hospital.html#contact">Contact</a></li>
+                    <li><a href="doctor-schedule.html" class="btn-login"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h2 id="heroTitle">Meet Our Doctors & Book Instantly</h2>
+        <p id="heroDesc">Browse our team of expert physicians, check their schedules, and book your appointment online. Filter by specialty, language, or availability.</p>
+        <a href="#schedule" class="btn-primary" id="seeSchedulesBtn">See Doctor Schedules</a>
+        <img src="https://cdn.pixabay.com/photo/2017/01/31/13/14/medical-2027777_1280.png" alt="Doctors Illustration" class="hero-graphic">
+    </section>
+
+    <!-- Search Bar -->
+    <div class="search-bar" id="searchBar">
+        <input type="text" id="searchName" placeholder="Search by name...">
+        <select id="searchSpecialty">
+            <option value="">All Specialties</option>
+            <option value="Cardiology">Cardiology</option>
+            <option value="Pediatrics">Pediatrics</option>
+            <option value="Orthopedics">Orthopedics</option>
+            <option value="Dermatology">Dermatology</option>
+            <option value="Neurology">Neurology</option>
+            <option value="General">General</option>
+        </select>
+        <select id="searchLanguage">
+            <option value="">All Languages</option>
+            <option value="English">English</option>
+            <option value="Arabic">Arabic</option>
+            <option value="Kurdish">Kurdish</option>
+        </select>
+        <select id="searchAvailability">
+            <option value="">Any Availability</option>
+            <option value="Online">Online</option>
+            <option value="In-person">In-person</option>
+        </select>
+        <button id="searchBtn"><i class="fas fa-search"></i> Search</button>
+    </div>
+
+    <!-- Doctor Schedule Section -->
+    <section class="schedule-section" id="schedule">
+        <div class="doctor-grid" id="doctorGrid">
+            <!-- Doctor cards will be injected here -->
+        </div>
+        <div class="no-results" id="noResults" style="display:none;">No doctors found matching your criteria.</div>
+    </section>
+
+    <!-- Availability Calendar Section -->
+    <section class="calendar-section" id="calendarSection">
+        <h3 style="color:var(--primary);margin-bottom:10px;">Weekly Availability Calendar</h3>
+        <table class="calendar-table" id="calendarTable">
+            <!-- Calendar will be rendered here -->
+        </table>
+    </section>
+
+    <!-- Doctor Comparison Bar -->
+    <div class="compare-bar" id="compareBar"></div>
+
+    <!-- Footer -->
+    <footer>
+        <ul class="footer-links">
+            <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+        </ul>
+        <p>&copy; 2025 MedBook Hospital. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // --- Multi-language support (simple demo) ---
+        const translations = {
+            en: {
+                heroTitle: "Meet Our Doctors & Book Instantly",
+                heroDesc: "Browse our team of expert physicians, check their schedules, and book your appointment online. Filter by specialty, language, or availability.",
+                seeSchedulesBtn: "See Doctor Schedules",
+                noResults: "No doctors found matching your criteria.",
+                calendarTitle: "Weekly Availability Calendar"
+            },
+            ku: {
+                heroTitle: "پزیشکانمان ببینە و چاوپێکەوتن بکە",
+                heroDesc: "تیمێکی پزیشکی شارەزایمان بگەڕێ، خشتەی کاتەکان ببینە و چاوپێکەوتنەکانت بە ئاسانیدا بکە. بەپێی پسپۆڕی، زمان یان بەردەستبوون فلتەر بکە.",
+                seeSchedulesBtn: "خشتەی پزیشکان ببینە",
+                noResults: "هیچ پزیشکێک بە ئەم پێوەکراوە نەدۆزرایەوە.",
+                calendarTitle: "خشتەی بەردەستبوونی هەفتانە"
+            },
+            ar: {
+                heroTitle: "تعرف على أطبائنا واحجز فوراً",
+                heroDesc: "تصفح فريقنا من الأطباء الخبراء، تحقق من جداولهم واحجز موعدك عبر الإنترنت. صفِ حسب التخصص أو اللغة أو التوفر.",
+                seeSchedulesBtn: "عرض جداول الأطباء",
+                noResults: "لم يتم العثور على أطباء يطابقون معاييرك.",
+                calendarTitle: "جدول التوفر الأسبوعي"
+            }
+        };
+        function setLang(lang) {
+            document.getElementById('heroTitle').textContent = translations[lang].heroTitle;
+            document.getElementById('heroDesc').textContent = translations[lang].heroDesc;
+            document.getElementById('seeSchedulesBtn').textContent = translations[lang].seeSchedulesBtn;
+            document.getElementById('noResults').textContent = translations[lang].noResults;
+            document.querySelector('#calendarSection h3').textContent = translations[lang].calendarTitle;
+        }
+        document.getElementById('langSelect').onchange = function() {
+            setLang(this.value);
+        };
+
+        // --- Doctor Data (add insurance, accessibility, reviews, etc.) ---
+        const doctors = [
+            {
+                name: "Dr. Sarah Ahmed",
+                photo: "https://randomuser.me/api/portraits/women/44.jpg",
+                specialty: "Cardiology",
+                languages: ["English", "Arabic"],
+                experience: 12,
+                rating: 4.9,
+                bio: "Expert in heart health, preventive care, and cardiac imaging.",
+                availability: "Online",
+                schedule: [
+                    { day: "Mon", time: "09:00 - 13:00", available: true },
+                    { day: "Wed", time: "14:00 - 18:00", available: false },
+                    { day: "Fri", time: "09:00 - 13:00", available: true }
+                ],
+                tags: ["Heart", "ECG", "Consultation"],
+                contact: "sarah.ahmed@medbook.com",
+                social: { linkedin: "#", twitter: "#" },
+                insurance: ["MedBookCare", "HealthPlus"],
+                accessibility: ["Wheelchair", "Sign Language"],
+                reviews: [
+                    { name: "Ali", text: "Very caring and professional!", rating: 5 },
+                    { name: "Mona", text: "Helped my father a lot.", rating: 5 }
+                ],
+                waitlist: [],
+                profile: "#"
+            },
+            {
+                name: "Dr. Omar Khalid",
+                photo: "https://randomuser.me/api/portraits/men/32.jpg",
+                specialty: "Pediatrics",
+                languages: ["English", "Kurdish"],
+                experience: 8,
+                rating: 4.8,
+                bio: "Caring for children of all ages, from newborns to teens.",
+                availability: "In-person",
+                schedule: [
+                    { day: "Tue", time: "10:00 - 16:00", available: true },
+                    { day: "Thu", time: "09:00 - 13:00", available: false }
+                ],
+                tags: ["Children", "Vaccination", "Growth"],
+                contact: "omar.khalid@medbook.com",
+                social: { linkedin: "#", twitter: "#" },
+                insurance: ["MedBookCare"],
+                accessibility: ["Wheelchair"],
+                reviews: [
+                    { name: "Sara", text: "Great with kids!", rating: 5 }
+                ],
+                waitlist: [],
+                profile: "#"
+            },
+            {
+                name: "Dr. Layla Hassan",
+                photo: "https://randomuser.me/api/portraits/women/65.jpg",
+                specialty: "Dermatology",
+                languages: ["English", "Arabic", "Kurdish"],
+                experience: 10,
+                rating: 4.7,
+                bio: "Specialist in skin, hair, and nail disorders.",
+                availability: "Online",
+                schedule: [
+                    { day: "Mon", time: "14:00 - 18:00", available: false },
+                    { day: "Thu", time: "10:00 - 16:00", available: true }
+                ],
+                tags: ["Skin", "Acne", "Laser"],
+                contact: "layla.hassan@medbook.com",
+                social: { linkedin: "#", twitter: "#" },
+                insurance: ["HealthPlus"],
+                accessibility: ["Sign Language"],
+                reviews: [],
+                waitlist: [],
+                profile: "#"
+            },
+            {
+                name: "Dr. Ahmed Karim",
+                photo: "https://randomuser.me/api/portraits/men/45.jpg",
+                specialty: "Orthopedics",
+                languages: ["English"],
+                experience: 15,
+                rating: 4.9,
+                bio: "Expert in bone, joint, and muscle care.",
+                availability: "In-person",
+                schedule: [
+                    { day: "Wed", time: "09:00 - 13:00", available: true },
+                    { day: "Fri", time: "14:00 - 18:00", available: false }
+                ],
+                tags: ["Bones", "Surgery", "Rehabilitation"],
+                contact: "ahmed.karim@medbook.com",
+                social: { linkedin: "#", twitter: "#" },
+                insurance: ["MedBookCare", "HealthPlus"],
+                accessibility: [],
+                reviews: [
+                    { name: "Rebaz", text: "Solved my knee pain!", rating: 5 }
+                ],
+                waitlist: [],
+                profile: "#"
+            },
+            {
+                name: "Dr. Hana Barzinji",
+                photo: "https://randomuser.me/api/portraits/women/68.jpg",
+                specialty: "Neurology",
+                languages: ["English", "Kurdish"],
+                experience: 11,
+                rating: 4.8,
+                bio: "Specialist in brain and nervous system disorders.",
+                availability: "Online",
+                schedule: [
+                    { day: "Tue", time: "14:00 - 18:00", available: true },
+                    { day: "Thu", time: "09:00 - 13:00", available: true }
+                ],
+                tags: ["Brain", "Nerves", "Consultation"],
+                contact: "hana.barzinji@medbook.com",
+                social: { linkedin: "#", twitter: "#" },
+                insurance: ["HealthPlus"],
+                accessibility: ["Wheelchair"],
+                reviews: [],
+                waitlist: [],
+                profile: "#"
+            }
+        ];
+
+        // --- Patient Reviews & Ratings ---
+        function renderReviews(docIdx) {
+            const doc = doctors[docIdx];
+            if (!doc.reviews || !doc.reviews.length) return '<div class="review">No reviews yet.</div>';
+            return doc.reviews.slice(-3).map(r =>
+                `<div class="review">"${r.text}" <span class="reviewer">- ${r.name}, ${'★'.repeat(r.rating)}</span></div>`
+            ).join('');
+        }
+
+        // --- Waitlist ---
+        function addToWaitlist(docIdx, email) {
+            if (!email) return;
+            if (!doctors[docIdx].waitlist.includes(email)) {
+                doctors[docIdx].waitlist.push(email);
+                alert("You have been added to the waitlist. You'll be notified if a slot opens.");
+            }
+        }
+
+        // --- Doctor Comparison ---
+        let compareList = [];
+        let filteredDoctors = []; // FIX: Declare filteredDoctors at the top and initialize as empty array
+
+        function updateCompareBar() {
+            const bar = document.getElementById('compareBar');
+            if (!compareList.length) {
+                bar.classList.remove('active');
+                bar.innerHTML = '';
+                return;
+            }
+            bar.classList.add('active');
+            bar.innerHTML = compareList.map(idx => {
+                const d = doctors[idx];
+                return `<div class="compare-card">
+                    <span class="close-btn" onclick="removeCompare(${idx})">&times;</span>
+                    <h4>${d.name}</h4>
+                    <div><b>Specialty:</b> ${d.specialty}</div>
+                    <div><b>Experience:</b> ${d.experience} yrs</div>
+                    <div><b>Languages:</b> ${d.languages.join(', ')}</div>
+                    <div><b>Rating:</b> ${d.rating}</div>
+                    <div><b>Insurance:</b> ${d.insurance.join(', ')}</div>
+                </div>`;
+            }).join('');
+        }
+        function toggleCompare(idx) {
+            const i = compareList.indexOf(idx);
+            if (i === -1) {
+                compareList.push(idx);
+            } else {
+                compareList.splice(i, 1);
+            }
+            updateCompareBar();
+            renderDoctors(filteredDoctors.length ? filteredDoctors : doctors); // FIX: fallback to doctors if filteredDoctors is empty
+        }
+        function removeCompare(idx) {
+            compareList = compareList.filter(i => i !== idx);
+            updateCompareBar();
+            renderDoctors(filteredDoctors.length ? filteredDoctors : doctors); // FIX: fallback to doctors if filteredDoctors is empty
+        }
+        window.removeCompare = removeCompare;
+
+        // --- Render Doctors ---
+        function renderDoctors(list) {
+            filteredDoctors = list; // Always update filteredDoctors
+            const grid = document.getElementById('doctorGrid');
+            grid.innerHTML = '';
+            if (!list.length) {
+                document.getElementById('noResults').style.display = '';
+                return;
+            }
+            document.getElementById('noResults').style.display = 'none';
+            list.forEach((doc, idx) => {
+                grid.innerHTML += `
+                <div class="doctor-card">
+                    <img src="${doc.photo}" alt="${doc.name}" class="doctor-photo">
+                    <h3>${doc.name}</h3>
+                    <div class="specialty">${doc.specialty}</div>
+                    <div class="rating">
+                        ${'★'.repeat(Math.round(doc.rating))}${'☆'.repeat(5 - Math.round(doc.rating))}
+                        <span style="color:var(--gray);font-size:0.97rem;">(${doc.rating})</span>
+                    </div>
+                    <div class="bio">${doc.bio}</div>
+                    <div class="availability">
+                        <i class="fas fa-${doc.availability === 'Online' ? 'video' : 'user-md'}"></i>
+                        ${doc.availability} 
+                        ${doc.availability === 'Online' ? '<span class="online">● Online</span>' : '<span class="offline">● In-person</span>'}
+                    </div>
+                    <div class="experience"><i class="fas fa-briefcase"></i> ${doc.experience} yrs experience</div>
+                    <div class="languages"><i class="fas fa-language"></i> ${doc.languages.join(', ')}</div>
+                    <div class="insurance"><i class="fas fa-notes-medical"></i> Insurance: ${doc.insurance.join(', ')}</div>
+                    <div class="accessibility"><i class="fas fa-universal-access"></i> Accessibility: ${doc.accessibility.join(', ') || 'Standard'}</div>
+                    <table class="schedule-table">
+                        <thead>
+                            <tr><th>Day</th><th>Time</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            ${doc.schedule.map((s, sidx) => `<tr>
+                                <td>${s.day}</td>
+                                <td>${s.time}</td>
+                                <td class="${s.available ? 'available' : 'full'}">
+                                    ${s.available ? 'Available' : 'Full'}
+                                    ${!s.available ? `<button class="waitlist-btn" onclick="addToWaitlist(${idx}, prompt('Enter your email for waitlist:'))">Waitlist</button>` : ''}
+                                </td>
+                            </tr>`).join('')}
+                        </tbody>
+                    </table>
+                    <div class="tags">
+                        ${doc.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <div class="contact">
+                        <a href="mailto:${doc.contact}"><i class="fas fa-envelope"></i> Email</a>
+                    </div>
+                    <div class="social">
+                        <a href="${doc.social.linkedin}" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="${doc.social.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>
+                    </div>
+                    <a href="${doc.profile}" class="profile-link" target="_blank">View Full Profile</a>
+                    <button class="btn-book" onclick="alert('Booking for ${doc.name} coming soon!')">
+                        <i class="fas fa-calendar-plus"></i> Book Appointment
+                    </button>
+                    <button class="compare-btn${compareList.includes(idx) ? ' selected' : ''}" onclick="toggleCompare(${idx})">
+                        <i class="fas fa-balance-scale"></i> ${compareList.includes(idx) ? 'Remove from' : 'Add to'} Compare
+                    </button>
+                    <div class="review-section">
+                        <h4>Patient Reviews</h4>
+                        <div class="review-list" id="reviewList${idx}">
+                            ${renderReviews(idx)}
+                        </div>
+                        <form class="review-form" onsubmit="event.preventDefault(); addReview(${idx}, this);">
+                            <input type="text" placeholder="Your Name" required>
+                            <textarea placeholder="Your Review" required></textarea>
+                            <select required>
+                                <option value="">Rating</option>
+                                <option value="5">★★★★★</option>
+                                <option value="4">★★★★</option>
+                                <option value="3">★★★</option>
+                                <option value="2">★★</option>
+                                <option value="1">★</option>
+                            </select>
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                    <div class="waitlist">
+                        <span>Waitlist: ${doc.waitlist.length} people</span>
+                    </div>
+                </div>
+                `;
+            });
+        }
+
+        // --- Add Review ---
+        function addReview(docIdx, form) {
+            const name = form.querySelector('input').value.trim();
+            const text = form.querySelector('textarea').value.trim();
+            const rating = parseInt(form.querySelector('select').value);
+            if (!name || !text || !rating) return;
+            doctors[docIdx].reviews.push({ name, text, rating });
+            document.getElementById('reviewList' + docIdx).innerHTML = renderReviews(docIdx);
+            form.reset();
+        }
+        window.addReview = addReview;
+        window.addToWaitlist = addToWaitlist;
+        window.toggleCompare = toggleCompare;
+
+        // --- Filter Doctors ---
+        function filterDoctors() {
+            const name = document.getElementById('searchName').value.trim().toLowerCase();
+            const specialty = document.getElementById('searchSpecialty').value;
+            const language = document.getElementById('searchLanguage').value;
+            const availability = document.getElementById('searchAvailability').value;
+            const filtered = doctors.filter(doc => {
+                return (
+                    (name === '' || doc.name.toLowerCase().includes(name)) &&
+                    (specialty === '' || doc.specialty === specialty) &&
+                    (language === '' || doc.languages.includes(language)) &&
+                    (availability === '' || doc.availability === availability)
+                );
+            });
+            renderDoctors(filtered);
+        }
+
+        document.getElementById('searchBtn').onclick = filterDoctors;
+        document.getElementById('searchName').oninput = filterDoctors;
+        document.getElementById('searchSpecialty').onchange = filterDoctors;
+        document.getElementById('searchLanguage').onchange = filterDoctors;
+        document.getElementById('searchAvailability').onchange = filterDoctors;
+
+        // --- Availability Calendar ---
+        function renderCalendar() {
+            const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+            const table = document.getElementById('calendarTable');
+            let html = `<tr><th>Doctor</th>${days.map(d=>`<th>${d}</th>`).join('')}</tr>`;
+            doctors.forEach(doc => {
+                html += `<tr><td>${doc.name}</td>`;
+                days.forEach(day => {
+                    const slot = doc.schedule.find(s => s.day === day);
+                    if (slot) {
+                        html += `<td class="${slot.available ? 'available' : 'full'}">
+                            ${slot.available ? slot.time : 'Full'}
+                            ${!slot.available ? `<button class="waitlist-btn" onclick="addToWaitlist(${doctors.indexOf(doc)}, prompt('Enter your email for waitlist:'))">Waitlist</button>` : ''}
+                        </td>`;
+                    } else {
+                        html += `<td>-</td>`;
+                    }
+                });
+                html += `</tr>`;
+            });
+            table.innerHTML = html;
+        }
+
+        // --- Initial Render ---
+        renderDoctors(doctors);
+        renderCalendar();
+        setLang('en');
+    </script>
+</body>
+</html>
